@@ -318,7 +318,19 @@ end;
 
 method String.IndexOf(Value: String; StartIndex: Int32): Int32;
 begin
+  if Value = nil then
+    raise new SugarArgumentNullException("Value");
+
+  if Value.Length = 0 then
+    exit 0;
+
+  {$IF ECHOES}
+    exit mapped.IndexOf(Value, StartIndex);
+  {$ELSEIF COOPER}
+    exit mapped.indexOf(Value, StartIndex);
+  {$ELSE}
     exit Substring(StartIndex).IndexOf(Value) + StartIndex;
+  {$ENDIF}
 end;
 
 method String.LastIndexOf(Value: String): Int32;
