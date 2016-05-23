@@ -33,6 +33,7 @@ type
     method EqualsIgnoreCase(Value: String): Boolean;
     method Contains(Value: String): Boolean;
     method IndexOf(Value: String): Int32;
+    method IndexOf(Value: String; StartIndex: Int32): Int32;
     method LastIndexOf(Value: String): Int32;
     method Substring(StartIndex: Int32): not nullable String;
     method Substring(StartIndex: Int32; aLength: Int32): not nullable String;
@@ -313,6 +314,11 @@ begin
   var r := mapped.rangeOfString(Value);
   exit if (r.location = NSNotFound) and (r.length = 0) then -1 else Int32(r.location);
   {$ENDIF}
+end;
+
+method String.IndexOf(Value: String; StartIndex: Int32): Int32;
+begin
+    exit Substring(StartIndex).IndexOf(Value) + StartIndex;
 end;
 
 method String.LastIndexOf(Value: String): Int32;
